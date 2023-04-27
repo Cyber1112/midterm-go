@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  app:
+    container_name: app
+    restart: always
+    build:
+      context: .
+    env_file:
+      - .env
+    ports:
+      - "3001:3001"
+    networks:
+      - restapi_network
+    depends_on:
+      - db
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - restapi_network
+
+volumes:
+  redis-data:
+
+networks:
+  restapi_network:
